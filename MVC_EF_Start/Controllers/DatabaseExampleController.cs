@@ -119,16 +119,46 @@ namespace MVC_EF_Start.Controllers
             //    .Where(c => c.DetailOrders.Max().Count());
 
 
-           
+            var check = dbContext.Orders
+               .Include(c => c.DetailProducts)
+               .Where(c => c.DetailProducts.Count != 0);
 
-                
-                
 
-                
-               
-                
-                
-      
+
+            
+
+
+            //Product output2 = dbContext.Details
+            //    .Include(c => c.ProductDetail)
+            //  .Where(c => c.OrderDetail.Customer == "Dylan")
+            //  .Select(c => c.ProductDetail)
+            //  .OrderByDescending(c => c.Price);
+              
+
+            //Product ou = dbContext.Products
+            //     .Where(c => c.Name == "Soccer Ball")
+            //     .FirstOrDefault();
+
+
+
+
+            Order output = dbContext.Details
+                .Include(c=>c.ProductDetail)
+                .Where(c => c.ProductDetail.Name == "Soccer Ball")
+                .Select(c => c.OrderDetail)
+                .OrderByDescending(c => c.DetailProducts.Count)
+                .FirstOrDefault();
+
+            Product output2 = dbContext.Details
+                .Where(c => c.OrderDetail.Customer == "Dylan")
+                .Select(c => c.ProductDetail)
+                .FirstOrDefault();
+
+
+
+
+
+
             return View();
     }
 
